@@ -20,6 +20,6 @@ public class ContactPerson {
 	public String toString() {
 		return "Person Name: " + firstName + " " + lastName + "\nPerson Address: " + address + ", " + city + ", "
 				+ state + "\nPerson Email: " + email + "\nPerson Postal Code: " + zip + "\nPerson Phone number: "
-				+ phonNum;
+				+ phonNum + "\n\n";
 	}
 }
