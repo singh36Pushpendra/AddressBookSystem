@@ -11,6 +11,7 @@ public class AddressBook {
 	private long phone;
 	private ArrayList<ContactPerson> persons = new ArrayList<>();
 	private static int count;
+	private boolean checkEquality;
 
 	private void inputNames() {
 		System.out.println("Enter first name: ");
@@ -45,20 +46,36 @@ public class AddressBook {
 
 	}
 
-	void updatePerson() {
-		inputNames();
+	private boolean areNamesEqual() {
 		for (i = 0; i < persons.size(); i++)
 			if (persons.get(i).getName().equals(fname + lname)) {
 				System.out.println("Match found at position " + i);
-				inputContacts();
-				persons.set(i, new ContactPerson(fname, lname, mail, address, city, state, zip, phone));
-				System.out.println("Person " + i + " Contact updated successfully!");
-				break;
+				return true;
 			}
-		if (persons.size() >= 1 && ! persons.get(i - 1).getName().equals(fname + lname))
-			System.out.println("No match available!\n");
+		return false;
+	}
+
+	void updatePerson() {
+		inputNames();
+		checkEquality = areNamesEqual();
+		if (checkEquality) {
+			inputContacts();
+			persons.set(i, new ContactPerson(fname, lname, mail, address, city, state, zip, phone));
+			System.out.println("Person " + (i + 1) + " Contact updated successfully!");
+		}
 		else
-			System.out.println("No elements available empty list!\n");
+			System.out.println("No match available!");
+	}
+
+	void deletePerson() {
+		inputNames();
+		checkEquality = areNamesEqual();
+		if (checkEquality) {
+			persons.remove(i);
+			System.out.println("Person " + (i + 1) + " Contact removed successfully!");
+		}
+		else
+			System.out.println("No match available!");
 	}
 
 	public String toString() {
