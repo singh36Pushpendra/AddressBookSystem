@@ -17,6 +17,9 @@ public class ContactPerson {
 		this.phonNum = phonNum;
 	}
 
+	String getName() {
+		return firstName + lastName;
+	}
 	public String toString() {
 		return "Person Name: " + firstName + " " + lastName + "\nPerson Address: " + address + ", " + city + ", "
 				+ state + "\nPerson Email: " + email + "\nPerson Postal Code: " + zip + "\nPerson Phone number: "
