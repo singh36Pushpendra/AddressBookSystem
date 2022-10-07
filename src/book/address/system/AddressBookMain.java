@@ -32,7 +32,7 @@ public class AddressBookMain {
 				book1.updatePerson();
 				break;
 			case '3':
-				System.out.print(book1 + "\b");
+				System.out.print(book1);
 				break;
 			case '4':
 				book1.deletePerson();
