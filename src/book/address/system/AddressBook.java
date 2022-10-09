@@ -10,7 +10,7 @@ public class AddressBook {
 	private int zip, i;
 	private long phone;
 	private ArrayList<ContactPerson> persons = new ArrayList<>();
-	private static int count;
+	private int count;
 	private boolean checkEquality;
 
 	private void inputNames() {
@@ -68,6 +68,7 @@ public class AddressBook {
 	}
 
 	void deletePerson() {
+		count--;
 		inputNames();
 		checkEquality = areNamesEqual();
 		if (checkEquality) {
