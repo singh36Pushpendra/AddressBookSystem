@@ -20,9 +20,19 @@ public class ContactPerson {
 	String getName() {
 		return firstName + lastName;
 	}
+	
 	public String toString() {
 		return "Person Name: " + firstName + " " + lastName + "\nPerson Address: " + address + ", " + city + ", "
 				+ state + "\nPerson Email: " + email + "\nPerson Postal Code: " + zip + "\nPerson Phone number: "
 				+ phonNum + "\n\n";
+	}	
+
+	public boolean equals(ContactPerson person) {
+		String name1 = getName();
+		String name2 = person.firstName + person.lastName;
+		if (name1.equals(name2)) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -1,7 +1,9 @@
 package book.address.system;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class AddressBook {
 
@@ -38,11 +40,21 @@ public class AddressBook {
 	}
 
 	void addPerson() {
-		count++;
-		System.out.println("Enter Person " + count + " Details:");
+		System.out.println("Enter Person " + (count + 1) + " Details:");
 		inputNames();
 		inputContacts();
-		persons.add(new ContactPerson(fname, lname, mail, address, city, state, zip, phone));
+		ContactPerson person = new ContactPerson(fname, lname, mail, address, city, state, zip, phone);
+		
+		List<ContactPerson> duplicate = persons.stream()
+				.filter(prsn -> prsn.equals(person))
+				.collect(Collectors.toList());
+		
+        if (duplicate.toString().equals("[]")) {
+    		count++;
+        	persons.add(person);
+        }
+        else
+        	System.out.println("Duplicate Name: Can't add person details!");
 
 	}
 
@@ -68,10 +80,10 @@ public class AddressBook {
 	}
 
 	void deletePerson() {
-		count--;
 		inputNames();
 		checkEquality = areNamesEqual();
 		if (checkEquality) {
+			count--;
 			persons.remove(i);
 			System.out.println("Person " + (i + 1) + " Contact removed successfully!");
 		}
@@ -87,4 +99,5 @@ public class AddressBook {
 		}
 		return personsData;
 	}
+	
 }
