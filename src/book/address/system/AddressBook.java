@@ -16,13 +16,13 @@ public class AddressBook {
 	private ArrayList<ContactPerson> persons;
 	private int count;
 	private boolean checkEquality;
-	private HashMap<String, ContactPerson> statePersonMap, cityPersonMap;
+	private HashMap<ContactPerson, String> personsState, personsCity;
 
 	public AddressBook() {
 
 		persons = new ArrayList<>();
-		statePersonMap = new HashMap<String, ContactPerson>();
-		cityPersonMap = new HashMap<String, ContactPerson>();
+		personsState = new HashMap<>();
+		personsCity = new HashMap<>();
 	}
 
 	private void inputNames() {
@@ -61,8 +61,8 @@ public class AddressBook {
 		if (duplicate.toString().equals("[]")) {
 			count++;
 			persons.add(person);
-			statePersonMap.put(state, person);
-			cityPersonMap.put(city, person);
+			personsState.put(person, state);
+			personsCity.put(person, city);
 		} else
 			System.out.println("Duplicate Name: Can't add person details!");
 
@@ -81,15 +81,15 @@ public class AddressBook {
 		inputNames();
 		checkEquality = areNamesEqual();
 		if (checkEquality) {
-			statePersonMap.remove(state);
-			cityPersonMap.remove(city);
+			personsState.remove(state);
+			personsCity.remove(city);
 
 			inputContacts();
 			ContactPerson person = new ContactPerson(fname, lname, mail, address, city, state, zip, phone);
 			persons.set(i, person);
 
-			statePersonMap.put(state, person);
-			statePersonMap.put(city, person);
+			personsState.put(person, state);
+			personsState.put(person, city);
 			System.out.println("Person " + (i + 1) + " Contact updated successfully!");
 		} else
 			System.out.println("No match available!");
@@ -100,9 +100,9 @@ public class AddressBook {
 		checkEquality = areNamesEqual();
 		if (checkEquality) {
 			count--;
-			persons.remove(i);
-			statePersonMap.remove(state);
-			cityPersonMap.remove(city);
+			ContactPerson removedPerson = persons.remove(i);
+			personsState.remove(removedPerson);
+			personsCity.remove(removedPerson);
 
 			System.out.println("Person " + (i + 1) + " Contact removed successfully!");
 		} else
@@ -144,22 +144,19 @@ public class AddressBook {
 		String state = stateCity[0];
 
 		System.out.println("\n-------------------------------------------------------");
-		Predicate<String> predicate;
+		
 		try {
 			System.out.println("State Name: " + stateCity[0]);
 			System.out.println("City Name: " + stateCity[1]);
 			String city = stateCity[1];
 
-			predicate = personCity -> personCity.equals(city);
-
-			cityPersonMap.keySet().stream().filter(predicate)
-					.forEach(prsnKey -> System.out.print("\n" + cityPersonMap.get(prsnKey) + "\n"));
+			personsCity.keySet().stream().filter(prsn -> city.equals(personsCity.get(prsn)))
+			.forEach(prsn -> System.out.print("\n" + prsn + "\n"));			
 
 		} catch (ArrayIndexOutOfBoundsException aioobe) {
 			
-			predicate = personState -> personState.equals(state);
-			statePersonMap.keySet().stream().filter(predicate)
-					.forEach(prsnKey -> System.out.print("\n" + statePersonMap.get(prsnKey) + "\n"));
+			personsState.keySet().stream().filter(prsn -> state.equals(personsState.get(prsn)))
+					.forEach(prsn -> System.out.print("\n" + prsn + "\n"));
 			
 		}
 	}

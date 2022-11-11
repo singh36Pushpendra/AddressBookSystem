@@ -12,7 +12,7 @@ public class AddressBookMain {
 		AddressBook addrBook;
 		HashMap<String, AddressBook> addrBooks = new HashMap<String, AddressBook>();
 
-		char superChoice = ' ', choice, viewChoice;
+		char superChoice = ' ', choice, viewChoice, countChoice;
 
 		while (true) {
 
@@ -73,7 +73,7 @@ public class AddressBookMain {
 						viewChoice = scanner.next().charAt(0);
 
 						System.out.println("\n-------------------------------------------------------");
-						
+
 						switch (viewChoice) {
 						case '1':
 							scanner.nextLine();
@@ -81,7 +81,7 @@ public class AddressBookMain {
 							stateName = scanner.nextLine();
 							addrBook.viewPersons(stateName);
 
-						break;
+							break;
 						case '2':
 							scanner.nextLine();
 							System.out.println("Enter State Name: ");
@@ -89,9 +89,10 @@ public class AddressBookMain {
 
 							System.out.println("Enter City Name: ");
 							cityName = scanner.next();
-							
+
 							addrBook.viewPersons(stateName, cityName);
 							break;
+
 						default:
 							System.out.println("Invalid: View Choice!");
 						}
@@ -135,7 +136,7 @@ public class AddressBookMain {
 
 					System.out.println("Enter City Name: ");
 					cityName = scanner.next();
-					
+
 					addrBook.viewAddrBook(stateName, cityName);
 					break;
 				default:
