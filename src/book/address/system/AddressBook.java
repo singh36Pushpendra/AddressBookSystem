@@ -171,4 +171,7 @@ public class AddressBook {
 				.filter(prsnCity -> prsnCity.equals(city)).count();
 	}
 
+	List<ContactPerson> sortPersons() {
+		return persons.stream().sorted().collect(Collectors.toList());
+	}
 }

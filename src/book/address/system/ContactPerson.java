@@ -1,6 +1,6 @@
 package book.address.system;
 
-public class ContactPerson {
+public class ContactPerson implements Comparable<ContactPerson> {
 	private String firstName, lastName, email, address, city, state;
 	private int zip;
 	private long phonNum;
@@ -43,5 +43,14 @@ public class ContactPerson {
 			return true;
 		}
 		return false;
+	}
+	
+	public int compareTo(ContactPerson person) {
+		if (getName().compareTo(person.getName()) > 0)
+			return 1;
+		else if (getName().compareTo(person.getName()) < 0)
+			return -1;
+		else
+			return 0;		
 	}
 }

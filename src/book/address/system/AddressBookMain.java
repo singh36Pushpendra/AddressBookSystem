@@ -1,6 +1,8 @@
 package book.address.system;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -44,6 +46,7 @@ public class AddressBookMain {
 					System.out.println("Press '4' to delete Contact!");
 					System.out.println("Press '5' to view Persons in State or City!");
 					System.out.println("Press '6' to count Persons by city or state!");
+					System.out.println("Press '7' to view sorted Persons by name!");
 					System.out.println("Press 'x' to exit current Address Book!");
 					System.out.print("Enter your choice: ");
 					choice = scanner.next().charAt(0);
@@ -127,6 +130,10 @@ public class AddressBookMain {
 						default:
 							System.out.println("Invalid: Count Choice!");
 						}
+						break;
+					case '7':
+						List<ContactPerson> sortedPersons = addrBook.sortPersons();
+						System.out.println(sortedPersons);
 						break;
 					case 'x':
 						System.out.println("Exiting Current Address Book!\n");
