@@ -14,6 +14,7 @@ public class AddressBook {
 	private int zip, i;
 	private long phone;
 	private ArrayList<ContactPerson> persons;
+	
 	private int count;
 	private boolean checkEquality;
 	private HashMap<ContactPerson, String> personsState, personsCity;
@@ -23,6 +24,10 @@ public class AddressBook {
 		persons = new ArrayList<>();
 		personsState = new HashMap<>();
 		personsCity = new HashMap<>();
+	}
+
+	public ArrayList<ContactPerson> getPersons() {
+		return persons;
 	}
 
 	private void inputNames() {

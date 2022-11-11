@@ -3,6 +3,7 @@ package book.address.system;
 public class ContactPerson implements Comparable<ContactPerson> {
 	private String firstName, lastName, email, address, city, state;
 	private int zip;
+
 	private long phonNum;
 
 	ContactPerson(String firstName, String lastName, String email, String address, String city, String state, int zip,
@@ -24,6 +25,10 @@ public class ContactPerson implements Comparable<ContactPerson> {
 
 	public String getState() {
 		return state;
+	}
+
+	public Integer getZip() {
+		return zip;
 	}
 
 	String getName() {
