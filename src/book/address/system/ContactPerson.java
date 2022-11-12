@@ -1,5 +1,7 @@
 package book.address.system;
 
+import org.json.simple.JSONObject;
+
 public class ContactPerson implements Comparable<ContactPerson> {
 	private String firstName, lastName, email, address, city, state;
 	private int zip;
@@ -61,5 +63,21 @@ public class ContactPerson implements Comparable<ContactPerson> {
 	
 	String[] getContactStrings() {
 		return new String[] {firstName, lastName, email, address, city, state, zip + "", phonNum + ""};
+	}
+	
+	JSONObject getContactJSON() {
+		JSONObject jsonPerson = new JSONObject();
+		jsonPerson.put("firstName", firstName);
+		jsonPerson.put("lastName", lastName);
+		jsonPerson.put("email", email);
+		jsonPerson.put("address", address);
+		jsonPerson.put("city", city);
+		jsonPerson.put("state", state);
+		jsonPerson.put("zip", zip);
+		jsonPerson.put("phonNum", phonNum);
+		
+		JSONObject jsonPersonObject = new JSONObject();
+		jsonPersonObject.put("person", jsonPerson);
+		return jsonPersonObject;
 	}
 }

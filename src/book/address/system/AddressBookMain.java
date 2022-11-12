@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
@@ -333,6 +337,33 @@ public class AddressBookMain {
 			e.printStackTrace();
 		}
 
+		// Reading and Writing JSON.
+		
+		JSONArray jsonPersons = new JSONArray();
+		
+		addrBooks.keySet().stream().forEach(bookname -> addrBooks.get(bookname).getPersons()
+				.stream().forEach(prsn -> jsonPersons.add(prsn.getContactJSON())));
+		
+		Path jsonPath = Paths.get("C:/Users/micro/Downloads/persons-json.json");
+		try {
+			Files.deleteIfExists(jsonPath);
+			Files.writeString(jsonPath, jsonPersons.toJSONString(), StandardOpenOption.CREATE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JSONParser jsonParser = new JSONParser();
+		
+		System.out.println("\nReading data from JSON file:");
+		try {
+			Object object = jsonParser.parse(Files.newBufferedReader(jsonPath));
+			JSONArray personsList = (JSONArray) object;
+			System.out.println(personsList);
+		} catch (IOException | ParseException e) {
+			
+			e.printStackTrace();
+		}
 		scanner.close();
 	}
 }
