@@ -58,4 +58,8 @@ public class ContactPerson implements Comparable<ContactPerson> {
 		else
 			return 0;		
 	}
+	
+	String[] getContactStrings() {
+		return new String[] {firstName, lastName, email, address, city, state, zip + "", phonNum + ""};
+	}
 }

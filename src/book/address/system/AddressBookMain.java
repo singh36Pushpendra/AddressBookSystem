@@ -1,5 +1,8 @@
 package book.address.system;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 
 public class AddressBookMain {
 
@@ -31,7 +39,7 @@ public class AddressBookMain {
 			else
 				return 0;
 		};
-		
+
 		Comparator<ContactPerson> stateComparator = (prsn1, prs2) -> {
 			if (prsn1.getState().compareTo(prs2.getState()) > 0)
 				return 1;
@@ -40,7 +48,7 @@ public class AddressBookMain {
 			else
 				return 0;
 		};
-		
+
 		Comparator<ContactPerson> zipComparator = (prsn1, prs2) -> {
 			if (prsn1.getZip().compareTo(prs2.getZip()) > 0)
 				return 1;
@@ -49,7 +57,7 @@ public class AddressBookMain {
 			else
 				return 0;
 		};
-		
+
 		while (true) {
 
 			if (superChoice == 'x')
@@ -176,19 +184,19 @@ public class AddressBookMain {
 						System.out.println("Press '3' to sort by zip names!");
 						System.out.println("Enter your choice:");
 						sortChoice = scanner.next().charAt(0);
-						
+
 						ArrayList<ContactPerson> persons = addrBook.getPersons();
-						
+
 						List<ContactPerson> sortedPrsns = null;
 						switch (sortChoice) {
 						case '1':
-							sortedPrsns = persons.stream().sorted(cityComparator).collect(Collectors.toList()); 
+							sortedPrsns = persons.stream().sorted(cityComparator).collect(Collectors.toList());
 							break;
 						case '2':
-							sortedPrsns = persons.stream().sorted(stateComparator).collect(Collectors.toList()); 
+							sortedPrsns = persons.stream().sorted(stateComparator).collect(Collectors.toList());
 							break;
 						case '3':
-							sortedPrsns = persons.stream().sorted(zipComparator).collect(Collectors.toList()); 
+							sortedPrsns = persons.stream().sorted(zipComparator).collect(Collectors.toList());
 							break;
 						default:
 							System.out.println("Invalid: Sort choice!");
@@ -248,17 +256,80 @@ public class AddressBookMain {
 				System.out.println("Invalid: Please enter correct choice!");
 			}
 		}
-		
+
 		Path path = Paths.get("C:/Users/micro/Downloads/address-book-data.txt");
 		try {
 			Files.deleteIfExists(path);
-			Files.write(path, addrBooks.keySet().stream().map(key -> addrBooks.get(key).toString())
-					.collect(Collectors.toList()), StandardOpenOption.CREATE);
-			
+			Files.write(path,
+					addrBooks.keySet().stream().map(key -> addrBooks.get(key).toString()).collect(Collectors.toList()),
+					StandardOpenOption.CREATE);
+
 			List<String> readAllLines = Files.readAllLines(path);
 			readAllLines.stream().forEach(line -> System.out.println(line));
-			
+
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Writing CSV
+
+		FileWriter fileWriter = null;
+
+		String csvPath = "C:/Users/micro/Downloads/address-book-csv.csv";
+
+		try {
+			fileWriter = new FileWriter(csvPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		CSVWriter writer = new CSVWriter(fileWriter);
+		List<String[]> csvLines = new ArrayList<String[]>();
+
+		addrBooks.keySet().stream().forEach(bookName -> addrBooks.get(bookName).getPersons()
+				.stream().forEach(person -> csvLines.add(person.getContactStrings())));
+
+		
+		writer.writeAll(csvLines);
+
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Reading CSV
+
+		FileReader fileReader = null;
+		try {
+			fileReader = new FileReader(csvPath);
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		}
+
+		CSVReader reader = new CSVReaderBuilder(fileReader).build();
+
+		List<String[]> linesOfData = null;
+
+		try {
+			linesOfData = reader.readAll();
+		} catch (IOException | CsvException e) {
+
+			e.printStackTrace();
+		}
+
+		System.out.println("\nReading data from csv file:");
+		linesOfData.stream().forEach(csvs -> {
+			for (String value : csvs)
+				System.out.print(value + "\t");
+			System.out.println();
+		});
+
+		try {
+			reader.close();
+		} catch (IOException e) {
+
 			e.printStackTrace();
 		}
 
